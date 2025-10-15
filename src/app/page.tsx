@@ -146,7 +146,7 @@ export default function HomePage() {
       {/* <EventsSection /> */}
       {/* <GallerySection /> */}
       <AboutUsSection />
-      <TeamSection />
+      {/* <TeamSection /> */}
       <ContactUsSection />
       <Footer />
     </main>
