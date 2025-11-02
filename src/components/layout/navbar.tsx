@@ -6,12 +6,15 @@ import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/language-context';
+import { LanguageSwitcher } from '@/components/ui/language-switcher';
 
 
 
 const Navbar: FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,7 +56,7 @@ const Navbar: FC = () => {
               className="relative font-medium text-white transition-colors hover:text-primary group text-base"
               onClick={handleNavClick}
             >
-              Home
+              {t('nav.home')}
               <span className="absolute bottom-[-2px] left-0 w-full h-[2px] bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
             <Link
@@ -61,7 +64,7 @@ const Navbar: FC = () => {
               className="relative font-medium text-white transition-colors hover:text-primary group text-base"
               onClick={handleNavClick}
             >
-              Services
+              {t('nav.services')}
               <span className="absolute bottom-[-2px] left-0 w-full h-[2px] bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
             <Link
@@ -69,7 +72,7 @@ const Navbar: FC = () => {
               className="relative font-medium text-white transition-colors hover:text-primary group text-base"
               onClick={handleNavClick}
             >
-              Resources
+              {t('nav.resources')}
               <span className="absolute bottom-[-2px] left-0 w-full h-[2px] bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
             <Link
@@ -77,7 +80,7 @@ const Navbar: FC = () => {
               className="relative font-medium text-white transition-colors hover:text-primary group text-base"
               onClick={handleNavClick}
             >
-              Gallery
+              {t('nav.gallery')}
               <span className="absolute bottom-[-2px] left-0 w-full h-[2px] bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
             <Link
@@ -85,19 +88,12 @@ const Navbar: FC = () => {
               className="relative font-medium text-white transition-colors hover:text-primary group text-base"
               onClick={handleNavClick}
             >
-              About Us
+              {t('nav.about')}
               <span className="absolute bottom-[-2px] left-0 w-full h-[2px] bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
-            {/* <Link
-              href="/#team"
-              className="relative font-medium text-white transition-colors hover:text-primary group text-base"
-              onClick={handleNavClick}
-            >
-              Team
-              <span className="absolute bottom-[-2px] left-0 w-full h-[2px] bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-            </Link> */}
+            <LanguageSwitcher />
             <Button variant="outline" size="sm" asChild>
-              <Link href="/login">Login/Register</Link>
+              <Link href="/login">{t('nav.login')}</Link>
             </Button>
           </div>
 
@@ -115,45 +111,49 @@ const Navbar: FC = () => {
                     className="block font-medium text-foreground hover:text-primary py-2 text-lg"
                     onClick={handleNavClick}
                   >
-                    Home
+                    {t('nav.home')}
                   </Link>
                   <Link
                     href="/#services"
                     className="block font-medium text-foreground hover:text-primary py-2 text-lg"
                     onClick={handleNavClick}
                   >
-                    Services
+                    {t('nav.services')}
                   </Link>
                   <Link
                     href="/resouces"
                     className="block font-medium text-foreground hover:text-primary py-2 text-lg"
                     onClick={handleNavClick}
                   >
-                    Resources
+                    {t('nav.resources')}
                   </Link>
                   <Link
                     href="/gallery"
                     className="block font-medium text-foreground hover:text-primary py-2 text-lg"
                     onClick={handleNavClick}
                   >
-                    Gallery
+                    {t('nav.gallery')}
                   </Link>
                   <Link
                     href="/#about"
                     className="block font-medium text-foreground hover:text-primary py-2 text-lg"
                     onClick={handleNavClick}
                   >
-                    About Us
+                    {t('nav.about')}
                   </Link>
                   <Link
                     href="/#team"
                     className="block font-medium text-foreground hover:text-primary py-2 text-lg"
                     onClick={handleNavClick}
                   >
-                    Team
+                    {t('nav.team')}
                   </Link>
+                  <div className="flex items-center justify-between mt-3">
+                    <span className="text-sm text-muted-foreground">Language:</span>
+                    <LanguageSwitcher />
+                  </div>
                   <Button variant="outline" className="w-full mt-5" asChild>
-                    <Link href="/login" onClick={handleNavClick}>Login/Register</Link>
+                    <Link href="/login" onClick={handleNavClick}>{t('nav.login')}</Link>
                   </Button>
                 </div>
               </SheetContent>

@@ -4,6 +4,7 @@
 import type { FC } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Briefcase, Users, Bookmark, type LucideIcon } from 'lucide-react';
+import { useLanguage } from '@/contexts/language-context';
 
 interface Service {
   title: string;
@@ -12,36 +13,38 @@ interface Service {
   id: string;
 }
 
-const services: Service[] = [
-  {
-    id: 'workshops',
-    title: 'Workshops',
-    description: 'Hands-on learning experiences to build practical skills.',
-    icon: Briefcase,
-  },
-  {
-    id: 'mentorship',
-    title: 'Mentorship',
-    description: 'Personalized guidance from experienced industry professionals.',
-    icon: Users,
-  },
-  {
-    id: 'resources',
-    title: 'Resources',
-    description: 'Access to curated content, tools, and best practices.',
-    icon: Bookmark,
-  },
-];
-
 const ServicesSection: FC = () => {
+  const { t } = useLanguage();
+  
+  const services: Service[] = [
+    {
+      id: 'workshops',
+      title: t('services.workshops.title'),
+      description: t('services.workshops.description'),
+      icon: Briefcase,
+    },
+    {
+      id: 'mentorship',
+      title: t('services.mentorship.title'),
+      description: t('services.mentorship.description'),
+      icon: Users,
+    },
+    {
+      id: 'resources',
+      title: t('services.resources.title'),
+      description: t('services.resources.description'),
+      icon: Bookmark,
+    },
+  ];
+
   return (
     <section id="services" className="py-16 md:py-24 bg-secondary/30">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12 text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-          Our Services
+          {t('services.title')}
         </h2>
         <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Explore what we offer to empower your journey in data and analytics.
+          {t('services.subtitle')}
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {services.map((service) => (

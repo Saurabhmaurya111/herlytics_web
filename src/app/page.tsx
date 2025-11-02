@@ -28,6 +28,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { HelpCircle } from 'lucide-react';
+import { useLanguage } from '@/contexts/language-context';
 
 
 // Placeholder sections
@@ -76,19 +77,21 @@ const GallerySection = () => (
   </section>
 );
 
-const AboutUsSection = () => (
+const AboutUsSection = () => {
+  const { t } = useLanguage();
+  return (
  <section id="about" className="py-16 md:py-24 bg-background">
     <div className="container mx-auto px-6 sm:px-8 lg:px-12">
       <div className="flex flex-col md:flex-row-reverse items-center gap-10 md:gap-16">
         <div className="md:w-1/2 space-y-6 text-center md:text-left">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-            About HERlytics
+            {t('about.title')}
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            Founded in 2020, HERlytics has grown into a vibrant community of women passionate about data and analytics. We believe in the power of diversity and inclusion to drive innovation.
+            {t('about.para1')}
           </p>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            Our team is composed of industry professionals, mentors, and volunteers dedicated to creating impactful programs and resources. We strive to support women at every stage of their careers, from students to seasoned experts.
+            {t('about.para2')}
           </p>
         </div>
         <div className="md:w-1/2">
@@ -108,33 +111,35 @@ const AboutUsSection = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 const QASection = () => {
+  const { t } = useLanguage();
   const faqData = [
     {
-      question: "What is HERlytics?",
-      answer: "HERlytics is a community-driven organization founded in 2020 dedicated to empowering women in data science and analytics. We provide workshops, mentorship, and resources to support women at every stage of their career journey.",
+      question: t('faq.q1'),
+      answer: t('faq.a1'),
     },
     {
-      question: "Who can join HERlytics?",
-      answer: "HERlytics welcomes women of all backgrounds and experience levels interested in data science and analytics. Whether you're a student, career changer, or experienced professional, there's a place for you in our community.",
+      question: t('faq.q2'),
+      answer: t('faq.a2'),
     },
     {
-      question: "What services does HERlytics offer?",
-      answer: "HERlytics offers a variety of services including hands-on workshops, personalized mentorship programs from industry professionals, and access to curated resources, tools, and best practices to help you succeed in your data career.",
+      question: t('faq.q3'),
+      answer: t('faq.a3'),
     },
     {
-      question: "How do I get involved?",
-      answer: "You can get involved by attending our workshops and events, joining our mentorship programs, or accessing our online resources. Simply fill out the contact form on our website or reach out through our social media channels.",
+      question: t('faq.q4'),
+      answer: t('faq.a4'),
     },
     {
-      question: "Are there any membership fees?",
-      answer: "HERlytics is committed to making our resources accessible. Most of our events and resources are free or offered at minimal cost. We also offer scholarships for those in need through our partnerships and sponsors.",
+      question: t('faq.q5'),
+      answer: t('faq.a5'),
     },
     {
-      question: "How can I stay updated on HERlytics events?",
-      answer: "Follow us on our social media channels and subscribe to our newsletter to receive regular updates about upcoming workshops, events, mentorship opportunities, and new resources. You can also check our events page regularly.",
+      question: t('faq.q6'),
+      answer: t('faq.a6'),
     },
   ];
 
@@ -146,10 +151,10 @@ const QASection = () => {
             <HelpCircle className="h-12 w-12 text-primary" />
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Frequently Asked Questions
+            {t('faq.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Find answers to common questions about HERlytics and how we can support your journey in data science and analytics.
+            {t('faq.subtitle')}
           </p>
         </div>
         <div className="max-w-3xl mx-auto">
@@ -177,25 +182,26 @@ const QASection = () => {
 
 const ContactUsSection = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <section id="contact" className="py-16 md:py-24 bg-background">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Get In Touch</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">{t('contact.title')}</h2>
         <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
-          Have questions or want to get involved? We'd love to hear from you!
+          {t('contact.subtitle')}
         </p>
         <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
           <DialogTrigger asChild>
             <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-4 text-lg">
-              Contact Us
+              {t('contact.btn')}
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[480px] p-0">
             <DialogHeader className="p-6 pb-4">
-              <DialogTitle className="text-2xl">Contact Us</DialogTitle>
+              <DialogTitle className="text-2xl">{t('contact.dialogTitle')}</DialogTitle>
               <DialogDescription>
-                Fill out the form below and we'll get back to you as soon as possible.
+                {t('contact.dialogDesc')}
               </DialogDescription>
             </DialogHeader>
             <div className="px-6 pb-6">

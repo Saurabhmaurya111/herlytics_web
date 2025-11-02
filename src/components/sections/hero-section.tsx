@@ -5,9 +5,11 @@ import Image from 'next/image';
 // import mainImg from '@/app/gallery/Main.jpg';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/language-context';
 
 const HeroSection: FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     // Trigger animation after component mounts
@@ -37,10 +39,10 @@ const HeroSection: FC = () => {
             MJPRU
           </h1>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-background mb-6">
-            Empowering Women in Analytics
+            {t('hero.title')}
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-background/90 mb-10 max-w-3xl mx-auto">
-            Join a vibrant community dedicated to advancing women in the field of data and analytics through mentorship, events, and resources.
+            {t('hero.subtitle')}
           </p>
         </div>
         <div
@@ -50,10 +52,10 @@ const HeroSection: FC = () => {
           )}
         >
           <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 text-lg" asChild>
-            <a href="#mission">Our Mission</a>
+            <a href="#mission">{t('hero.missionBtn')}</a>
           </Button>
           <Button variant="outline" size="lg" className="border-background text-black  hover:bg-background hover:text-primary px-8 py-3 text-lg" asChild>
-             <a href="#contact">Join Us</a>
+             <a href="#contact">{t('hero.joinBtn')}</a>
           </Button>
         </div>
       </div>

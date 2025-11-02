@@ -352,7 +352,7 @@ const Page: React.FC = () => {
         </Tabs>
 
         {/* Call to Action */}
-        <div className="mt-16 p-8 bg-secondary/30 rounded-2xl text-center border border-secondary/50">
+        {/* <div className="mt-16 p-8 bg-secondary/30 rounded-2xl text-center border border-secondary/50">
           <h3 className="text-2xl font-bold mb-4">Ready to Start Learning?</h3>
           <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
             Join our community of women data scientists and get access to exclusive resources, mentorship, and networking opportunities.
@@ -365,7 +365,7 @@ const Page: React.FC = () => {
               Request Mentorship
             </Button>
           </div>
-        </div>
+        </div> */}
       </div>
       <Footer />
     </main>
