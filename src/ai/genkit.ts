@@ -28,5 +28,5 @@ export function getAi() {
   return aiInstance;
 }
 
-// Export for backward compatibility
-export const ai = getAi();
+// Note: Use getAi() function instead of exporting 'ai' directly
+// This avoids build-time errors when API key is not available during build
