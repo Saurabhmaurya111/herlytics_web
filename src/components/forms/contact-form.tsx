@@ -1,6 +1,7 @@
 
 "use client";
 
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -42,6 +43,8 @@ interface ContactFormComponentProps {
 }
 
 export default function ContactFormComponent({ onFormSubmit }: ContactFormComponentProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -54,15 +57,42 @@ export default function ContactFormComponent({ onFormSubmit }: ContactFormCompon
     mode: "onChange",
   });
 
-  function onSubmit(data: ContactFormValues) {
-    console.log("Contact Form Data:", data);
-    toast({
-      title: "Form Submitted!",
-      description: "We've received your message and will get back to you shortly.",
-    });
-    form.reset();
-    if (onFormSubmit) {
-      onFormSubmit();
+  async function onSubmit(data: ContactFormValues) {
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send message');
+      }
+
+      toast({
+        title: "Message Sent Successfully!",
+        description: result.message || "We've received your message and will get back to you shortly.",
+      });
+      
+      form.reset();
+      if (onFormSubmit) {
+        onFormSubmit();
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to send message. Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -157,8 +187,12 @@ export default function ContactFormComponent({ onFormSubmit }: ContactFormCompon
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-          Send Message
+        <Button 
+          type="submit" 
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Sending..." : "Send Message"}
         </Button>
       </form>
     </Form>

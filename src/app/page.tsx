@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import ContactFormComponent from '@/components/forms/contact-form';
+import AIChatbot from '@/components/chatbot/ai-chatbot';
 import {
   Dialog,
   DialogContent,
@@ -20,6 +21,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { HelpCircle } from 'lucide-react';
 
 
 // Placeholder sections
@@ -102,6 +110,71 @@ const AboutUsSection = () => (
   </section>
 );
 
+const QASection = () => {
+  const faqData = [
+    {
+      question: "What is HERlytics?",
+      answer: "HERlytics is a community-driven organization founded in 2020 dedicated to empowering women in data science and analytics. We provide workshops, mentorship, and resources to support women at every stage of their career journey.",
+    },
+    {
+      question: "Who can join HERlytics?",
+      answer: "HERlytics welcomes women of all backgrounds and experience levels interested in data science and analytics. Whether you're a student, career changer, or experienced professional, there's a place for you in our community.",
+    },
+    {
+      question: "What services does HERlytics offer?",
+      answer: "HERlytics offers a variety of services including hands-on workshops, personalized mentorship programs from industry professionals, and access to curated resources, tools, and best practices to help you succeed in your data career.",
+    },
+    {
+      question: "How do I get involved?",
+      answer: "You can get involved by attending our workshops and events, joining our mentorship programs, or accessing our online resources. Simply fill out the contact form on our website or reach out through our social media channels.",
+    },
+    {
+      question: "Are there any membership fees?",
+      answer: "HERlytics is committed to making our resources accessible. Most of our events and resources are free or offered at minimal cost. We also offer scholarships for those in need through our partnerships and sponsors.",
+    },
+    {
+      question: "How can I stay updated on HERlytics events?",
+      answer: "Follow us on our social media channels and subscribe to our newsletter to receive regular updates about upcoming workshops, events, mentorship opportunities, and new resources. You can also check our events page regularly.",
+    },
+  ];
+
+  return (
+    <section id="qa" className="py-16 md:py-24 bg-secondary/30">
+      <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="text-center mb-12">
+          <div className="flex items-center justify-center mb-4">
+            <HelpCircle className="h-12 w-12 text-primary" />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Find answers to common questions about HERlytics and how we can support your journey in data science and analytics.
+          </p>
+        </div>
+        <div className="max-w-3xl mx-auto">
+          <Accordion type="single" collapsible className="space-y-4">
+            {faqData.map((faq, index) => (
+              <AccordionItem
+                key={index}
+                value={`item-${index}`}
+                className="bg-background border border-border rounded-lg px-6 shadow-md hover:shadow-lg transition-shadow"
+              >
+                <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline py-4">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground leading-relaxed pb-4">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const ContactUsSection = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -147,8 +220,10 @@ export default function HomePage() {
       {/* <GallerySection /> */}
       <AboutUsSection />
       {/* <TeamSection /> */}
+      <QASection />
       <ContactUsSection />
       <Footer />
+      <AIChatbot />
     </main>
   );
 }

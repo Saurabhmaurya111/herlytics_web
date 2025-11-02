@@ -88,14 +88,14 @@ const Navbar: FC = () => {
               About Us
               <span className="absolute bottom-[-2px] left-0 w-full h-[2px] bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
-            <Link
+            {/* <Link
               href="/#team"
               className="relative font-medium text-white transition-colors hover:text-primary group text-base"
               onClick={handleNavClick}
             >
               Team
               <span className="absolute bottom-[-2px] left-0 w-full h-[2px] bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-            </Link>
+            </Link> */}
             <Button variant="outline" size="sm" asChild>
               <Link href="/login">Login/Register</Link>
             </Button>
@@ -123,6 +123,13 @@ const Navbar: FC = () => {
                     onClick={handleNavClick}
                   >
                     Services
+                  </Link>
+                  <Link
+                    href="/resouces"
+                    className="block font-medium text-foreground hover:text-primary py-2 text-lg"
+                    onClick={handleNavClick}
+                  >
+                    Resources
                   </Link>
                   <Link
                     href="/gallery"
