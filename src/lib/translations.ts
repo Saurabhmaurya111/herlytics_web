@@ -10,7 +10,7 @@ export const translations = {
       login: "Login/Register",
     },
     hero: {
-      title: "Empowering Women in Analytics",
+      title: "Empowering Girls in STEM",
       subtitle: "Join a vibrant community dedicated to advancing women in the field of data and analytics through mentorship, events, and resources.",
       missionBtn: "Our Mission",
       joinBtn: "Join Us",
