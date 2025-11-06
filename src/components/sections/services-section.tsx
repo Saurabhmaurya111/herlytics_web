@@ -41,6 +41,8 @@ const ServicesSection: FC = () => {
 
   const getServiceLink = (id: string) => {
     if (id === 'resources') return '/resouces';
+    if (id === 'mentorship') return '/#contact';
+    if (id === 'workshops') return '/gallery';
     return '#';
   };
 
