@@ -18,6 +18,13 @@ function isQuotaError(error: any): boolean {
   );
 }
 
+// Helper function to check if quota is completely exhausted (limit: 0)
+function isQuotaExhausted(error: any): boolean {
+  const errorMessage = error?.message || '';
+  // Check if error mentions "limit: 0" which indicates daily quota is exhausted
+  return errorMessage.includes('limit: 0');
+}
+
 // Helper function to extract retry delay from error
 function getRetryDelay(error: any): number {
   try {
@@ -31,6 +38,12 @@ function getRetryDelay(error: any): number {
       const delayStr = retryInfo.retryDelay.replace(/[^\d.]/g, '');
       return Math.min(parseFloat(delayStr) * 1000, 60000); // Max 60 seconds
     }
+    
+    // Also try to parse from error message (format: "Please retry in 52.807386645s")
+    const retryMatch = error?.message?.match(/retry in ([\d.]+)s/i);
+    if (retryMatch) {
+      return Math.min(parseFloat(retryMatch[1]) * 1000, 60000);
+    }
   } catch (e) {
     // Fallback if parsing fails
   }
@@ -40,10 +53,11 @@ function getRetryDelay(error: any): number {
 // Retry function with exponential backoff
 async function retryWithBackoff<T>(
   fn: () => Promise<T>,
-  maxRetries: number = 3,
+  maxRetries: number = 2, // Reduced from 3 to 2 since exhausted quota won't help
   baseDelay: number = 1000
 ): Promise<T> {
   let lastError: any;
+  let lastRetryDelay: number | null = null;
   
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
@@ -51,13 +65,20 @@ async function retryWithBackoff<T>(
     } catch (error: any) {
       lastError = error;
       
+      // If quota is exhausted, don't retry - it won't help until quota resets
+      if (isQuotaError(error) && isQuotaExhausted(error)) {
+        console.log('Quota completely exhausted (limit: 0). Skipping retries.');
+        throw error;
+      }
+      
       // If it's a quota error and we have retries left, wait and retry
       if (isQuotaError(error) && attempt < maxRetries) {
-        const delay = attempt === 0 
-          ? getRetryDelay(error) 
-          : baseDelay * Math.pow(2, attempt);
+        // Always use the API's suggested delay if available, otherwise use exponential backoff
+        const suggestedDelay = getRetryDelay(error);
+        const delay = suggestedDelay > 1000 ? suggestedDelay : baseDelay * Math.pow(2, attempt);
+        lastRetryDelay = delay;
         
-        console.log(`Quota error encountered. Retrying in ${delay}ms (attempt ${attempt + 1}/${maxRetries + 1})...`);
+        console.log(`Quota error encountered. Retrying in ${Math.round(delay / 1000)}s (attempt ${attempt + 1}/${maxRetries + 1})...`);
         await new Promise(resolve => setTimeout(resolve, delay));
         continue;
       }
@@ -104,10 +125,16 @@ If asked about events, mention that we organize various workshops, networking se
   } catch (error: any) {
     // Handle quota/rate limit errors with user-friendly message
     if (isQuotaError(error)) {
+      const isExhausted = isQuotaExhausted(error);
       console.error('Gemini API quota exceeded:', error.message);
+      
+      const quotaMessage = isExhausted
+        ? `I apologize, but I've reached my daily usage limit. The quota will reset soon. Please try again later, or reach out to HERlytics directly through our contact form for immediate assistance.`
+        : `I apologize, but I'm currently experiencing high demand. Please try again in a few moments. If the issue persists, you can reach out to HERlytics directly through our contact form for immediate assistance.`;
+      
       return {
         role: 'assistant',
-        content: `I apologize, but I'm currently experiencing high demand and have reached my usage limit. Please try again in a few moments. If the issue persists, you can reach out to HERlytics directly through our contact form for immediate assistance.
+        content: `${quotaMessage}
 
 For general inquiries about HERlytics:
 - We're a community for women in data and analytics, founded in 2020
