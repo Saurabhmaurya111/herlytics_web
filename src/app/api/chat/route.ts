@@ -22,10 +22,30 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       message: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Chat API error:', error);
+    
+    // Check if it's a quota/rate limit error
+    const errorMessage = error?.message || '';
+    const isQuotaError = 
+      error?.status === 429 ||
+      errorMessage.includes('429') ||
+      errorMessage.includes('quota') ||
+      errorMessage.includes('rate limit') ||
+      errorMessage.includes('Too Many Requests');
+    
+    if (isQuotaError) {
+      return NextResponse.json(
+        { 
+          error: 'The AI service is currently experiencing high demand. Please try again in a few moments.',
+          retryAfter: 60 // Suggest retrying after 60 seconds
+        },
+        { status: 429 }
+      );
+    }
+    
     return NextResponse.json(
-      { error: 'An error occurred while processing your request.' },
+      { error: 'An error occurred while processing your request. Please try again later.' },
       { status: 500 }
     );
   }
