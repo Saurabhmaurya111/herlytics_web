@@ -47,7 +47,7 @@ const Navbar: FC = () => {
                 className="logo-image"
               />
             </div>
-            <span>HERlytics</span>
+            <span>HerLytics</span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-6">
